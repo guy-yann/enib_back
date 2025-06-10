@@ -24,64 +24,19 @@ public class Book {
     public int getId() {
         return id;
     }
-
-    public void setId(int id){
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }
-
-    public void setTitle(String title){
-        this.title = title;
-    }
-
-    public String getAuthor(){
-        return author;
-    }
-
-    public void setAuthor(String author){
-        this.author = author;
-    }
-
-    public List<String> getGenre(){
-        return genre;
-    }
-
-    public void setGenre(List<String> genre){
-        this.genre = genre;
-    }
-
+    public String getAuthor(){return author; }
+    public List<String> getGenre(){return genre;}
     public Date getReleaseDate(){
         return releaseDate;
     }
-
-    public void setReleaseDate(Date releaseDate){
-        this.releaseDate = releaseDate;
-    }
-
     public float getRating(){
         return rating;
     }
-
-    public void setRating(Float rating){
-        this.rating = rating;
-    }
-
     public int getSales(){
         return sales;
     }
-
-    public void setSales(int sales){
-        this.sales = sales;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getDescription() {return description;}
 }

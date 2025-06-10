@@ -27,16 +27,7 @@ class BookDaoImplTest {
     @Test
     void testAddBook() {
 
-        Book newBook = new Book();
-        newBook.setId(999);
-        newBook.setTitle("New Title");
-        newBook.setAuthor("New Author");
-        newBook.setDescription("description");
-        newBook.setGenre(new ArrayList<>());
-        newBook.setReleaseDate(new Date());
-        newBook.setRating(4.5f);
-        newBook.setSales(0);
-
+        Book newBook = new Book(999, "NewTitle", "NewAuthor", "description", new ArrayList<>(), new Date(), 4.5f, 0);
         bookDao.addBook(newBook);
         assertTrue(bookDao.getBooks().contains(newBook), "The new book should be added to the list");
     }
@@ -59,6 +50,23 @@ class BookDaoImplTest {
         assertFalse(booksByAuthor.isEmpty(), "The set of books by author should not be empty");
         assertTrue(booksByAuthor.contains(existingBook), "The set should contain the book by the specified author");
     }
+
+    @Test
+    void testGetBooksByFilter() {
+        Book book1 = new Book(1, "FilterTitle1", "FilterAuthor", "desc", List.of("Genre1"), new Date(), 4.0f, 100);
+        Book book2 = new Book(2, "FilterTitle2", "FilterAuthor", "desc", List.of("Genre2"), new Date(), 4.5f, 200);
+        Book book3 = new Book(3, "AnotherTitle", "AnotherAuthor", "desc", List.of("Genre3"), new Date(), 3.5f, 300);
+        bookDao.addBook(book1);
+        bookDao.addBook(book2);
+        bookDao.addBook(book3);
+        List<Book> filteredBooks = new ArrayList<>(bookDao.getBooksByFilter(null, "FilterAuthor", null, null, null, null));
+        assertNotNull(filteredBooks, "Filtered books list should not be null");
+        assertEquals(2, filteredBooks.size(), "There should be 2 books by 'FilterAuthor'");
+        assertTrue(filteredBooks.contains(book1), "Filtered list should contain book1");
+        assertTrue(filteredBooks.contains(book2), "Filtered list should contain book2");
+        assertFalse(filteredBooks.contains(book3), "Filtered list should not contain book3");
+    }
+
 
     @Test
     void testDeleteBook() {

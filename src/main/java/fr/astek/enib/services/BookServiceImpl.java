@@ -22,14 +22,6 @@ public class BookServiceImpl implements BookService {
         return bookDao.getBooks();
     }
 
-    public List<Book> getBooksbyFilter(String title,String author,String releaseDateStr,List<String> genre,String rating,String sales){
-        LocalDate releaseDate = null;
-        if (releaseDateStr != null) {
-            releaseDate = LocalDate.parse(releaseDateStr);
-        }
-        return bookDao.getBooksByFilter(title, author, releaseDate, genre, rating, sales);
-    }
-
     @Override
     public Book addBook(final Book book) {
         return bookDao.addBook(book);
@@ -52,6 +44,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public Boolean deleteBook(int idBook) {
         return bookDao.deleteBook(idBook);
+    }
+
+    @Override
+    public List<Book> getBooksbyFilter(String title,String author,String releaseDateStr,List<String> genre,String rating,String sales){
+        LocalDate releaseDate = null;
+        if (releaseDateStr != null) {
+            releaseDate = LocalDate.parse(releaseDateStr);
+        }
+        return bookDao.getBooksByFilter(title, author, releaseDate, genre, rating, sales);
     }
 
 }
