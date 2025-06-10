@@ -31,7 +31,6 @@ class BookDaoImplTest {
 
         assertTrue(bookDao.getBooks().contains(newBook), "The new book should be added to the list");
     }
-    //push
 
     @Test
     void testGetBookById() {
