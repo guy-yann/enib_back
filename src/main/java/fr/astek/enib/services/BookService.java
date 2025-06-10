@@ -9,6 +9,8 @@ import java.util.Set;
 public interface BookService {
     List<Book> getBook();
 
+    List<Book> getBooksbyFilter(String title,String author,String releaseDate,List<String> genre,String rating,String sales);
+
     Book addBook(Book book);
 
     Book getBookById(int idBook) throws BookNotExistsException;

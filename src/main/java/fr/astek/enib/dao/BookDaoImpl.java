@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -64,6 +65,46 @@ public class BookDaoImpl implements BookDao {
     @Override
     public boolean deleteBook(int idBook) {
         return datas.removeIf(book -> book.getId() == idBook);
+    }
+
+    @Override
+    public List<Book> getBooksByFilter(String title, String author, LocalDate releaseDate, List<String> genre, String rating, String sales) {
+        return datas.stream()
+                .filter(book -> title == null
+                        || book.getTitle().toLowerCase().contains(title.toLowerCase()))
+
+                .filter(book -> author == null
+                        || book.getAuthor().equals(author))
+
+                .filter(book -> releaseDate == null
+                        || book.getReleaseDate().equals(releaseDate))
+
+                .filter(book -> genre == null
+                        || genre.isEmpty()
+                        || book.getGenre().stream().anyMatch(genre::contains))
+
+                .filter(book -> {
+                    if (rating == null) return true;
+                    try {
+                        double minRating = Double.parseDouble(rating);
+                        return book.getRating() >= minRating;
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                })
+
+                .filter(book -> {
+                    if (sales == null) return true;
+                    try {
+                        long minSales = Long.parseLong(sales);
+                        return book.getSales() >= minSales;
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                })
+
+                .sorted(Comparator.comparingInt(Book::getId))
+                .collect(Collectors.toList());
     }
 
 }

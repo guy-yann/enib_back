@@ -6,6 +6,7 @@ import fr.astek.enib.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -19,6 +20,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getBook() {
         return bookDao.getBooks();
+    }
+
+    public List<Book> getBooksbyFilter(String title,String author,String releaseDateStr,List<String> genre,String rating,String sales){
+        LocalDate releaseDate = null;
+        if (releaseDateStr != null) {
+            releaseDate = LocalDate.parse(releaseDateStr);
+        }
+        return bookDao.getBooksByFilter(title, author, releaseDate, genre, rating, sales);
     }
 
     @Override

@@ -2,6 +2,7 @@ package fr.astek.enib.dao;
 
 import fr.astek.enib.model.Book;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -16,4 +17,6 @@ public interface BookDao {
     Set<Book> getBooksByAuthor(String owner);
 
     boolean deleteBook(int idBook);
+
+    List<Book> getBooksByFilter(String title, String author, LocalDate releaseDate, List<String> genre, String rating, String sales);
 }

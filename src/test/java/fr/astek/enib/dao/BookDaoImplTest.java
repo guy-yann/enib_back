@@ -26,9 +26,18 @@ class BookDaoImplTest {
 
     @Test
     void testAddBook() {
-        Book newBook = new Book(999, "New Title", "New Author", "description", new ArrayList<>(), new Date(), 4.5f, 0);
-        bookDao.addBook(newBook);
 
+        Book newBook = new Book();
+        newBook.setId(999);
+        newBook.setTitle("New Title");
+        newBook.setAuthor("New Author");
+        newBook.setDescription("description");
+        newBook.setGenre(new ArrayList<>());
+        newBook.setReleaseDate(new Date());
+        newBook.setRating(4.5f);
+        newBook.setSales(0);
+
+        bookDao.addBook(newBook);
         assertTrue(bookDao.getBooks().contains(newBook), "The new book should be added to the list");
     }
 
