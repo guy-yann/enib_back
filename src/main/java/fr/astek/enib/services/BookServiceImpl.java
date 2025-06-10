@@ -45,4 +45,10 @@ public class BookServiceImpl implements BookService {
         return bookDao.deleteBook(idBook);
     }
 
+    @Override
+    public List<Book> filterBooks(String author, String titleKeyword) {
+        return bookDao.filterBooks(author, titleKeyword);
+    }
+
+    
 }

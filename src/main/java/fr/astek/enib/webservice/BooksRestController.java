@@ -25,7 +25,7 @@ public class BooksRestController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Book> addBook(@RequestBody Book Book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book book) {
         return new ResponseEntity<>(bookService.addBook(Book), HttpStatus.OK);
     }
 
@@ -48,4 +48,13 @@ public class BooksRestController {
     private ResponseEntity<String> BookExceptionExists(BookException paee) {
         return new ResponseEntity<>(paee.getMessage(), paee.getStatus());
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Book>> filterBooks(
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String titleKeyword) {
+        List<Book> filteredBooks = bookService.filterBooks(author, titleKeyword);
+        return new ResponseEntity<>(filteredBooks, HttpStatus.OK);
+    }
+
 }

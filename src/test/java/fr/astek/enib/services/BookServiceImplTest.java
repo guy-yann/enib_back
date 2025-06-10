@@ -110,4 +110,23 @@ class BookServiceTest {
         verify(bookDao, times(1)).deleteBook(999);
     }
 
+    @Test
+    void testFilterBooks() {
+        List<Book> mockBooks = List.of(
+                new Book(1, "The Hobbit", "Tolkien", "desc", List.of("Fantasy"), new Date(), 4.8f, 300),
+                new Book(2, "1984", "Orwell", "desc", List.of("Dystopia"), new Date(), 4.7f, 200)
+        );
+
+        when(bookDao.filterBooks("Tolkien", null)).thenReturn(
+                mockBooks.stream().filter(b -> b.getAuthor().equals("Tolkien")).toList()
+        );
+
+        List<Book> result = bookService.filterBooks("Tolkien", null);
+
+        assertEquals(1, result.size(), "Should return 1 book by Tolkien");
+        assertEquals("The Hobbit", result.get(0).getTitle());
+        verify(bookDao, times(1)).filterBooks("Tolkien", null);
+    }
+
+
 }

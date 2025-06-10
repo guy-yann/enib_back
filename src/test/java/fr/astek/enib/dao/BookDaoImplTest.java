@@ -65,4 +65,28 @@ class BookDaoImplTest {
         boolean isDeleted = bookDao.deleteBook(9999);
         assertFalse(isDeleted, "Deleting a non-existent book should return false");
     }
+
+    @Test
+    void testFilterBooks() {
+        Book book1 = new Book(1, "The Lord of the Rings", "Tolkien", "description", List.of("Fantasy"), new Date(), 4.9f, 500);
+        Book book2 = new Book(2, "The Hobbit", "Tolkien", "description", List.of("Fantasy"), new Date(), 4.8f, 400);
+        Book book3 = new Book(3, "1984", "Orwell", "description", List.of("Dystopia"), new Date(), 4.7f, 300);
+
+        bookDao.addBook(book1);
+        bookDao.addBook(book2);
+        bookDao.addBook(book3);
+
+        List<Book> filteredByAuthor = bookDao.filterBooks("Tolkien", null);
+        assertEquals(2, filteredByAuthor.size(), "Should return 2 books by Tolkien");
+
+        List<Book> filteredByTitle = bookDao.filterBooks(null, "hobbit");
+        assertEquals(1, filteredByTitle.size(), "Should return 1 book with 'hobbit' in title");
+
+        List<Book> filteredByBoth = bookDao.filterBooks("Tolkien", "rings");
+        assertEquals(1, filteredByBoth.size(), "Should return 1 book by Tolkien with 'rings' in title");
+
+        List<Book> noMatch = bookDao.filterBooks("Unknown", "xyz");
+        assertTrue(noMatch.isEmpty(), "Should return no books");
+    }
+
 }
