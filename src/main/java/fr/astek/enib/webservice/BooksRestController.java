@@ -2,6 +2,7 @@ package fr.astek.enib.webservice;
 
 import fr.astek.enib.exceptions.BookException;
 import fr.astek.enib.exceptions.BookNotExistsException;
+import fr.astek.enib.exceptions.BookAlreadyExistsException;
 import fr.astek.enib.model.Book;
 import fr.astek.enib.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,14 @@ public class BooksRestController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Book> addBook(@RequestBody Book Book) {
-        return new ResponseEntity<>(bookService.addBook(Book), HttpStatus.OK);
+    public ResponseEntity<Book> addBook(@RequestBody Book Book) throws BookAlreadyExistsException {
+        System.out.println(Book);
+        System.out.println(bookService.getBook().contains(Book));
+        if(bookService.getBook().contains(Book)){
+            throw new BookAlreadyExistsException();
+        }else{
+            return new ResponseEntity<>(bookService.addBook(Book), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/id/{id}")
