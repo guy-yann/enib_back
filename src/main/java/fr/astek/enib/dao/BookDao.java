@@ -1,6 +1,7 @@
 package fr.astek.enib.dao;
 
 import fr.astek.enib.model.Book;
+import fr.astek.enib.model.BookFilterCriteria;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,8 @@ public interface BookDao {
     Optional<Book> getBookById(int idBook);
 
     Set<Book> getBooksByAuthor(String owner);
+
+    List<Book> getFilteredBooks(BookFilterCriteria criteria);
 
     boolean deleteBook(int idBook);
 }

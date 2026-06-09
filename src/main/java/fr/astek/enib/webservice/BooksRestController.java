@@ -3,6 +3,8 @@ package fr.astek.enib.webservice;
 import fr.astek.enib.exceptions.BookException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
+import fr.astek.enib.model.BookFilterCriteria;
+import fr.astek.enib.services.BookFilterService;
 import fr.astek.enib.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,9 @@ public class BooksRestController {
 
     @Autowired
     BookService bookService;
+
+    @Autowired
+    BookFilterService bookFilterService;
 
     @GetMapping()
     public ResponseEntity<List<Book>> listBooks() {
@@ -37,6 +42,14 @@ public class BooksRestController {
     @GetMapping("/author")
     public ResponseEntity<Set<Book>> getBooksByOwner(@RequestParam("author") String author) {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Book>> getFilteredBooks(
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "titleKeyword", required = false) String titleKeyword) {
+        BookFilterCriteria criteria = new BookFilterCriteria(author, titleKeyword);
+        return new ResponseEntity<>(bookFilterService.getFilteredBooks(criteria), HttpStatus.OK);
     }
 
     @DeleteMapping("/id/{id}")
