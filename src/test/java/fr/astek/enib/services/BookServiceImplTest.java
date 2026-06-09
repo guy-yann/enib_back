@@ -110,4 +110,56 @@ class BookServiceTest {
         verify(bookDao, times(1)).deleteBook(999);
     }
 
+    @Test
+    void testGetFilteredBooks() {
+        List<Book> mockBooks = List.of(
+                new Book(1, "Title1", "Author1", "description", List.of("Science Fiction"), new Date(), 4.5f, 100)
+        );
+
+        when(bookDao.getFilteredBooks("Science Fiction", 4.0f, 5.0f)).thenReturn(mockBooks);
+
+        List<Book> result = bookService.getFilteredBooks("Science Fiction", 4.0f, 5.0f);
+
+        assertNotNull(result, "The filtered list should not be null");
+        assertEquals(1, result.size(), "The filtered list should contain one book");
+        verify(bookDao, times(1)).getFilteredBooks("Science Fiction", 4.0f, 5.0f);
+    }
+
+    @Test
+    void testUpdateBookRating() throws BookNotExistsException {
+        Book mockBook = new Book(1, "Title1", "Author1", "description", List.of("Genre1"), new Date(), 4.5f, 100);
+
+        when(bookDao.updateBookRating(1, 4.9f)).thenReturn(Optional.of(mockBook));
+
+        Book updated = bookService.updateBookRating(1, 4.9f);
+
+        assertNotNull(updated, "The updated book should not be null");
+        verify(bookDao, times(1)).updateBookRating(1, 4.9f);
+    }
+
+    @Test
+    void testUpdateBookRatingNotFound() {
+        when(bookDao.updateBookRating(999, 3.0f)).thenReturn(Optional.empty());
+
+        assertThrows(BookNotExistsException.class, () -> bookService.updateBookRating(999, 3.0f),
+                "Updating a non-existent book should throw BookNotExistsException");
+        verify(bookDao, times(1)).updateBookRating(999, 3.0f);
+    }
+
+    @Test
+    void testGetFilteredBooksNoFilters() {
+        List<Book> mockBooks = Arrays.asList(
+                new Book(1, "Title1", "Author1", "description", List.of("Genre1"), new Date(), 4.5f, 100),
+                new Book(2, "Title2", "Author2", "description", List.of("Genre2"), new Date(), 2.0f, 200)
+        );
+
+        when(bookDao.getFilteredBooks(null, null, null)).thenReturn(mockBooks);
+
+        List<Book> result = bookService.getFilteredBooks(null, null, null);
+
+        assertNotNull(result, "The filtered list should not be null");
+        assertEquals(2, result.size(), "With no filters, all books should be returned");
+        verify(bookDao, times(1)).getFilteredBooks(null, null, null);
+    }
+
 }

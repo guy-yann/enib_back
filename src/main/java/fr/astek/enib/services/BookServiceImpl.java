@@ -41,6 +41,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getFilteredBooks(String genre, Float minRating, Float maxRating) {
+        return bookDao.getFilteredBooks(genre, minRating, maxRating);
+    }
+
+    @Override
+    public Book updateBookRating(int idBook, float rating) throws BookNotExistsException {
+        return bookDao.updateBookRating(idBook, rating)
+                .orElseThrow(BookNotExistsException::new);
+    }
+
+    @Override
     public Boolean deleteBook(int idBook) {
         return bookDao.deleteBook(idBook);
     }

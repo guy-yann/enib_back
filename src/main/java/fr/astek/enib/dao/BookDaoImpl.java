@@ -62,6 +62,26 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public List<Book> getFilteredBooks(String genre, Float minRating, Float maxRating) {
+        return datas.stream()
+                .filter(book -> genre == null || book.getGenre().contains(genre))
+                .filter(book -> minRating == null || book.getRating() >= minRating)
+                .filter(book -> maxRating == null || book.getRating() <= maxRating)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Book> updateBookRating(int idBook, float rating) {
+        return datas.stream()
+                .filter(book -> book.getId() == idBook)
+                .findFirst()
+                .map(book -> {
+                    book.setRating(rating);
+                    return book;
+                });
+    }
+
+    @Override
     public boolean deleteBook(int idBook) {
         return datas.removeIf(book -> book.getId() == idBook);
     }

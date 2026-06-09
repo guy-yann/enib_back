@@ -3,6 +3,7 @@ package fr.astek.enib.webservice;
 import fr.astek.enib.exceptions.BookException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
+import fr.astek.enib.model.RatingUpdateRequest;
 import fr.astek.enib.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,21 @@ public class BooksRestController {
     @GetMapping("/author")
     public ResponseEntity<Set<Book>> getBooksByOwner(@RequestParam("author") String author) {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Book>> getFilteredBooks(
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) Float minRating,
+            @RequestParam(required = false) Float maxRating) {
+        return new ResponseEntity<>(bookService.getFilteredBooks(genre, minRating, maxRating), HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/id/{id}/rating", consumes = "application/json")
+    public ResponseEntity<Book> updateBookRating(
+            @PathVariable("id") int idBook,
+            @RequestBody RatingUpdateRequest request) throws BookNotExistsException {
+        return new ResponseEntity<>(bookService.updateBookRating(idBook, request.getRating()), HttpStatus.OK);
     }
 
     @DeleteMapping("/id/{id}")
