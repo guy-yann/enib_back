@@ -9,6 +9,8 @@ import java.util.Set;
 public interface BookDao {
     List<Book> getBooks();
 
+    List<Book> getFilteredBooks(String author, String title);
+
     Book addBook(Book book);
 
     Optional<Book> getBookById(int idBook);

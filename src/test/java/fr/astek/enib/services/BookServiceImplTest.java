@@ -110,4 +110,37 @@ class BookServiceTest {
         verify(bookDao, times(1)).deleteBook(999);
     }
 
+
+
+    @Test
+    void testGetFilteredBooksByAuthor() {
+        List<Book> mockBooks = List.of(
+                new Book(1, "Forward role", "Carol Gallagher", "desc", List.of("Fiction"), new Date(), 4.5f, 100),
+                new Book(2, "Another book", "Carol Gallagher", "desc", List.of("Drama"), new Date(), 3.0f, 50)
+        );
+
+        when(bookDao.getFilteredBooks("Carol Gallagher", null)).thenReturn(mockBooks);
+
+        List<Book> result = bookService.getFilteredBooks("Carol Gallagher", null);
+
+        assertFalse(result.isEmpty());
+        result.forEach(book -> assertEquals("Carol Gallagher", book.getAuthor()));
+        verify(bookDao, times(1)).getFilteredBooks("Carol Gallagher", null);
+    }
+
+    @Test
+    void testGetFilteredBooksByTitle() {
+        List<Book> mockBooks = List.of(
+                new Book(1, "Forward role", "Carol Gallagher", "desc", List.of("Fiction"), new Date(), 4.5f, 100)
+        );
+
+        when(bookDao.getFilteredBooks(null, "role")).thenReturn(mockBooks);
+
+        List<Book> result = bookService.getFilteredBooks(null, "role");
+
+        assertFalse(result.isEmpty());
+        result.forEach(book -> assertTrue(book.getTitle().toLowerCase().contains("role")));
+        verify(bookDao, times(1)).getFilteredBooks(null, "role");
+    }
+
 }
