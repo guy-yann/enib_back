@@ -2,6 +2,8 @@ package fr.astek.enib.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.astek.enib.exceptions.BookExistsException;
+import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +45,11 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book addBook(Book book) {
+    public Book addBook(Book book) throws BookExistsException {
+
+        if (datas.contains(book)) {
+            throw new BookExistsException();
+        }
         datas.add(book);
         return book;
     }

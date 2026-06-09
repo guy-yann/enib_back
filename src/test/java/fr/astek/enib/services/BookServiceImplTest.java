@@ -1,6 +1,7 @@
 package fr.astek.enib.services;
 
 import fr.astek.enib.dao.BookDao;
+import fr.astek.enib.exceptions.BookExistsException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +45,7 @@ class BookServiceTest {
     }
 
     @Test
-    void testAddBookNull() {
+    void testAddBookNull() throws BookExistsException {
         Book addedBook = bookService.addBook(null);
 
         assertNull(addedBook, "Adding a null book should return null");

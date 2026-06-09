@@ -1,6 +1,7 @@
 package fr.astek.enib.services;
 
 import fr.astek.enib.dao.BookDao;
+import fr.astek.enib.exceptions.BookExistsException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book addBook(final Book book) {
+    public Book addBook(final Book book) throws BookExistsException {
         return bookDao.addBook(book);
     }
 

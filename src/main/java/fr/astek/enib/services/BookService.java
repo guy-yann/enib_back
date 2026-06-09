@@ -1,5 +1,6 @@
 package fr.astek.enib.services;
 
+import fr.astek.enib.exceptions.BookExistsException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
 
@@ -9,7 +10,7 @@ import java.util.Set;
 public interface BookService {
     List<Book> getBook();
 
-    Book addBook(Book book);
+    Book addBook(Book book) throws BookExistsException;
 
     Book getBookById(int idBook) throws BookNotExistsException;
 

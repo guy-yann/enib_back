@@ -1,5 +1,6 @@
 package fr.astek.enib.dao;
 
+import fr.astek.enib.exceptions.BookExistsException;
 import fr.astek.enib.model.Book;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +26,23 @@ class BookDaoImplTest {
     }
 
     @Test
-    void testAddBook() {
+    void testAddBook() throws BookExistsException {
         Book newBook = new Book(999, "New Title", "New Author", "description", new ArrayList<>(), new Date(), 4.5f, 0);
+        bookDao.addBook(newBook);
+
+        assertTrue(bookDao.getBooks().contains(newBook), "The new book should be added to the list");
+    }
+
+    @Test
+    void testAddBookExisting() throws BookExistsException {
+        ArrayList<String> genres = new ArrayList<String>();
+        genres.add("Biography");
+        genres.add("Science Fiction");
+        genres.add("Non-Fiction");
+        Date date = new Date(1973,10,20);
+
+
+        Book newBook = new Book(1, "Forward role", "Carol Gallagher", "Suffer give itself him score customer official.", genres, date, 2.9f, 84757);
         bookDao.addBook(newBook);
 
         assertTrue(bookDao.getBooks().contains(newBook), "The new book should be added to the list");
