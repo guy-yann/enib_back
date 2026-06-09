@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,7 +27,11 @@ public class BookDaoImpl implements BookDao {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat("MM-dd-yyyy"));
 
-        try (InputStream inputStream = getClass().getResourceAsStream("/data/books.json")) {
+        Path sourceFile = Paths.get("src/main/resources/data/books.json");
+
+        try (InputStream inputStream = Files.exists(sourceFile)
+                ? Files.newInputStream(sourceFile)
+                : getClass().getResourceAsStream("/data/books.json")) {
             if (inputStream == null) {
                 System.out.println("Le fichier JSON n'a pas été trouvé dans resources/data/books.json");
                 return;

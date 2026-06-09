@@ -1,13 +1,19 @@
 package fr.astek.enib.webservice;
 
+import fr.astek.enib.dto.BookCreateRequest;
+import fr.astek.enib.dto.BookResponse;
+import fr.astek.enib.exceptions.BookCreationException;
 import fr.astek.enib.exceptions.BookException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
+import fr.astek.enib.services.BookCreationService;
 import fr.astek.enib.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Set;
@@ -19,14 +25,17 @@ public class BooksRestController {
     @Autowired
     BookService bookService;
 
+    @Autowired
+    BookCreationService bookCreationService;
+
     @GetMapping()
     public ResponseEntity<List<Book>> listBooks() {
         return new ResponseEntity<>(bookService.getBook(), HttpStatus.OK);
     }
 
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<Book> addBook(@RequestBody Book Book) {
-        return new ResponseEntity<>(bookService.addBook(Book), HttpStatus.OK);
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<BookResponse> addBook(@Valid @RequestBody BookCreateRequest request) throws BookCreationException {
+        return new ResponseEntity<>(bookCreationService.createBook(request), HttpStatus.CREATED);
     }
 
     @GetMapping("/id/{id}")
