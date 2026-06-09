@@ -41,8 +41,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Set<Book> getBooksByFilter(String author, List<String> genre, float rating, int sales){return bookDao.getBooksByFilter(author, genre, rating, sales);}
+
+    @Override
     public Boolean deleteBook(int idBook) {
         return bookDao.deleteBook(idBook);
     }
-
 }

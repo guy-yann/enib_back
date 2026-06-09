@@ -61,6 +61,18 @@ public class BookDaoImpl implements BookDao {
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
+
+    @Override
+    public Set<Book> getBooksByFilter(String author, List<String> genre, float rating, int sales) {
+        return datas.stream()
+                .filter(book -> author == null || Objects.equals(author, book.getAuthor()))
+                .filter(book -> genre == null || genre.isEmpty() || genre.contains(book.getGenre()))
+                .filter(book -> rating <= 0 || book.getRating() >= rating)
+                .filter(book -> sales <= 0 || book.getSales() >= sales)
+                .sorted(Comparator.comparingInt(Book::getId))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
     @Override
     public boolean deleteBook(int idBook) {
         return datas.removeIf(book -> book.getId() == idBook);
