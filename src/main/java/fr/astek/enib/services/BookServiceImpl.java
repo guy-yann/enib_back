@@ -35,6 +35,13 @@ public class BookServiceImpl implements BookService {
         return bookById.get();
     }
 
+
+    @Override
+    public Book updateBookById(Book myUpdatedDataBook) throws BookNotExistsException{
+        Book bookById = bookDao.updateBook(myUpdatedDataBook);
+        return null;
+    }
+
     @Override
     public Set<Book> getBooksByAuthor(String author) {
         return bookDao.getBooksByAuthor(author);

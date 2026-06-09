@@ -34,6 +34,11 @@ public class BooksRestController {
         return new ResponseEntity<>(bookService.getBookById(idBook), HttpStatus.OK);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<Book> updateBookById( @RequestBody Book myUpdatedDataBook) throws BookNotExistsException {
+        return new ResponseEntity<>(bookService.updateBookById(myUpdatedDataBook), HttpStatus.OK);
+    }
+
     @GetMapping("/author")
     public ResponseEntity<Set<Book>> getBooksByOwner(@RequestParam("author") String author) {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);

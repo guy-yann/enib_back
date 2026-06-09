@@ -1,5 +1,6 @@
 package fr.astek.enib.dao;
 
+import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface BookDao {
     Set<Book> getBooksByAuthor(String owner);
 
     boolean deleteBook(int idBook);
+
+    Book updateBook(Book myUpdatedDataBook) throws BookNotExistsException;
 }

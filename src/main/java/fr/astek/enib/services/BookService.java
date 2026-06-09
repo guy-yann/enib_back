@@ -16,4 +16,6 @@ public interface BookService {
     Set<Book> getBooksByAuthor(String author);
 
     Boolean deleteBook(int idBook);
+
+    Book updateBookById(Book myUpdatedDataBook) throws BookNotExistsException;
 }
