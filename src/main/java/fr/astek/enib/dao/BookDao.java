@@ -19,5 +19,7 @@ public interface BookDao {
 
     Optional<Book> updateBookRating(int idBook, float rating);
 
+    Set<Book> getBooksBygenre(String genre);
+    Set<Book> getBooksFiltered(String author, String genre);
     boolean deleteBook(int idBook);
 }

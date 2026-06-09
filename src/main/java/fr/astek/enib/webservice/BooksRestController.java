@@ -60,8 +60,19 @@ public class BooksRestController {
         return new ResponseEntity<>(bookService.deleteBook(idBook), HttpStatus.OK);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<Set<Book>> getBooksFiltered(
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String genre) {
+
+        return ResponseEntity.ok(
+                bookService.getBooksFiltered(author, genre)
+        );
+    }
+
     @ExceptionHandler(BookException.class)
     private ResponseEntity<String> BookExceptionExists(BookException paee) {
         return new ResponseEntity<>(paee.getMessage(), paee.getStatus());
     }
+
 }

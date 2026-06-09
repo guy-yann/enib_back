@@ -82,8 +82,24 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public boolean deleteBook(int idBook) {
-        return datas.removeIf(book -> book.getId() == idBook);
+    public Set<Book> getBooksBygenre(String genre) {
+        return datas.stream().filter(book -> book.getGenre().indexOf(genre)!=-1).collect(Collectors.toCollection(LinkedHashSet::new));
     }
+    @Override
+    public boolean deleteBook(int id){
+        return datas.removeIf(book -> id==book.getId());
 
+    }
+    @Override
+    public Set<Book> getBooksFiltered(String author, String genre) {
+        return datas.stream()
+                .filter(book ->
+                        (author == null || book.getAuthor().equalsIgnoreCase(author))
+                                && (genre == null || book.getGenre().indexOf(genre)!=-1)
+                )
+                .collect(Collectors.toSet());
+    }
+    public List<Book> getDatas() {
+        return datas;
+    }
 }

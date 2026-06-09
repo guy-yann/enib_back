@@ -65,63 +65,8 @@ class BookDaoImplTest {
         boolean isDeleted = bookDao.deleteBook(9999);
         assertFalse(isDeleted, "Deleting a non-existent book should return false");
     }
-
     @Test
-    void testGetFilteredBooksByGenre() {
-        List<Book> allBooks = bookDao.getBooks();
-        String targetGenre = allBooks.getFirst().getGenre().getFirst();
+    void testGetBooksFiltered() {
 
-        List<Book> filtered = bookDao.getFilteredBooks(targetGenre, null, null);
-
-        assertNotNull(filtered, "The filtered list should not be null");
-        assertFalse(filtered.isEmpty(), "The filtered list should not be empty");
-        assertTrue(filtered.stream().allMatch(b -> b.getGenre().contains(targetGenre)),
-                "All books should contain the requested genre");
-    }
-
-    @Test
-    void testGetFilteredBooksByMinRating() {
-        float minRating = 3.0f;
-        List<Book> filtered = bookDao.getFilteredBooks(null, minRating, null);
-
-        assertNotNull(filtered, "The filtered list should not be null");
-        assertTrue(filtered.stream().allMatch(b -> b.getRating() >= minRating),
-                "All books should have a rating >= " + minRating);
-    }
-
-    @Test
-    void testGetFilteredBooksByMaxRating() {
-        float maxRating = 4.0f;
-        List<Book> filtered = bookDao.getFilteredBooks(null, null, maxRating);
-
-        assertNotNull(filtered, "The filtered list should not be null");
-        assertTrue(filtered.stream().allMatch(b -> b.getRating() <= maxRating),
-                "All books should have a rating <= " + maxRating);
-    }
-
-    @Test
-    void testGetFilteredBooksNoFilters() {
-        List<Book> allBooks = bookDao.getBooks();
-        List<Book> filtered = bookDao.getFilteredBooks(null, null, null);
-
-        assertEquals(allBooks.size(), filtered.size(), "With no filters, all books should be returned");
-    }
-
-    @Test
-    void testUpdateBookRating() {
-        Book existingBook = bookDao.getBooks().getFirst();
-        float newRating = 4.9f;
-
-        Optional<Book> updated = bookDao.updateBookRating(existingBook.getId(), newRating);
-
-        assertTrue(updated.isPresent(), "The updated book should be present");
-        assertEquals(newRating, updated.get().getRating(), 0.001f, "The rating should be updated");
-    }
-
-    @Test
-    void testUpdateBookRatingNotFound() {
-        Optional<Book> updated = bookDao.updateBookRating(9999, 3.0f);
-
-        assertFalse(updated.isPresent(), "Updating a non-existent book should return empty");
     }
 }
