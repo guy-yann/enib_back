@@ -3,17 +3,18 @@ package fr.astek.enib.services;
 import fr.astek.enib.dao.BookDao;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class BookServiceTest {
 
     @Mock
@@ -21,11 +22,6 @@ class BookServiceTest {
 
     @InjectMocks
     private BookServiceImpl bookService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void testGetBook() {
@@ -88,6 +84,22 @@ class BookServiceTest {
         assertNotNull(booksByAuthor, "The set of books by author should not be null");
         assertEquals(2, booksByAuthor.size(), "The size of the set should match");
         verify(bookDao, times(1)).getBooksByAuthor("Author1");
+    }
+
+    @Test
+    void testGetBooksByTitleKeyword() {
+        List<Book> mockBooks = Arrays.asList(
+                new Book(1, "Forward role", "Author1", "description", List.of("Genre1"), new Date(), 4.5f, 100),
+                new Book(2, "Out role one", "Author2", "description", List.of("Genre2"), new Date(), 4.0f, 200)
+        );
+
+        when(bookDao.getBooksByTitleKeyword("role")).thenReturn(mockBooks);
+
+        List<Book> booksByKeyword = bookService.getBooksByTitleKeyword("role");
+
+        assertNotNull(booksByKeyword, "The list of books by keyword should not be null");
+        assertEquals(2, booksByKeyword.size(), "The size of the list should match");
+        verify(bookDao, times(1)).getBooksByTitleKeyword("role");
     }
 
     @Test

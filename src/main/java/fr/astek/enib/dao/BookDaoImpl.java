@@ -62,6 +62,18 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public List<Book> getBooksByTitleKeyword(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            return List.of();
+        }
+
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+        return datas.stream()
+                .filter(book -> book.getTitle() != null && book.getTitle().toLowerCase(Locale.ROOT).contains(normalizedKeyword))
+                .toList();
+    }
+
+    @Override
     public boolean deleteBook(int idBook) {
         return datas.removeIf(book -> book.getId() == idBook);
     }

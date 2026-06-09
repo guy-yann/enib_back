@@ -15,5 +15,8 @@ public interface BookService {
 
     Set<Book> getBooksByAuthor(String author);
 
+    @SuppressWarnings("unused")
+    List<Book> getBooksByTitleKeyword(String keyword);
+
     Boolean deleteBook(int idBook);
 }
