@@ -39,6 +39,13 @@ public class BooksRestController {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<Book>> filterBooks(
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "title", required = false) String title) {
+        return new ResponseEntity<>(bookService.filterBooks(author, title), HttpStatus.OK);
+    }
+
     @DeleteMapping("/id/{id}")
     public ResponseEntity<Boolean> deleteBook(@PathVariable("id") int idBook) {
         return new ResponseEntity<>(bookService.deleteBook(idBook), HttpStatus.OK);

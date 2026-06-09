@@ -15,5 +15,7 @@ public interface BookService {
 
     Set<Book> getBooksByAuthor(String author);
 
+    List<Book> filterBooks(String author, String title);
+
     Boolean deleteBook(int idBook);
 }
