@@ -45,4 +45,8 @@ public class BookServiceImpl implements BookService {
         return bookDao.deleteBook(idBook);
     }
 
+    @Override
+    public List<Book> getFilteredBooks(String author, String title) {
+        return bookDao.getFilteredBooks(author, title);
+    }
 }
