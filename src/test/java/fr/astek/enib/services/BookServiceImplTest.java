@@ -91,6 +91,21 @@ class BookServiceTest {
     }
 
     @Test
+    void testFilterBooks() {
+        List<Book> mockBooks = List.of(
+                new Book(1, "Forward role", "Author1", "description", List.of("Genre1"), new Date(), 4.5f, 100)
+        );
+
+        when(bookDao.filterBooks("Author1", "role")).thenReturn(mockBooks);
+
+        List<Book> filtered = bookService.filterBooks("Author1", "role");
+
+        assertNotNull(filtered, "The filtered list should not be null");
+        assertEquals(1, filtered.size(), "The filtered list size should match");
+        verify(bookDao, times(1)).filterBooks("Author1", "role");
+    }
+
+    @Test
     void testDeleteBook() {
         when(bookDao.deleteBook(1)).thenReturn(true);
 
