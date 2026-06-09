@@ -1,6 +1,7 @@
 package fr.astek.enib.dao;
 
 import fr.astek.enib.model.Book;
+import fr.astek.enib.model.BookFilterCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -64,5 +65,25 @@ class BookDaoImplTest {
     void testDeleteBookNonExistent() {
         boolean isDeleted = bookDao.deleteBook(9999);
         assertFalse(isDeleted, "Deleting a non-existent book should return false");
+    }
+
+    @Test
+    void testGetFilteredBooksByAuthor() {
+        List<Book> filteredBooks = bookDao.getFilteredBooks(new BookFilterCriteria("John Hamilton", null));
+
+        assertNotNull(filteredBooks, "The filtered list should not be null");
+        assertFalse(filteredBooks.isEmpty(), "The filtered list should not be empty");
+        assertTrue(filteredBooks.stream().allMatch(book -> "John Hamilton".equals(book.getAuthor())),
+                "All books should match the author filter");
+    }
+
+    @Test
+    void testGetFilteredBooksByTitleKeyword() {
+        List<Book> filteredBooks = bookDao.getFilteredBooks(new BookFilterCriteria(null, "language"));
+
+        assertNotNull(filteredBooks, "The filtered list should not be null");
+        assertFalse(filteredBooks.isEmpty(), "The filtered list should not be empty");
+        assertTrue(filteredBooks.stream().allMatch(book -> book.getTitle().toLowerCase().contains("language")),
+                "All books should contain the title keyword");
     }
 }

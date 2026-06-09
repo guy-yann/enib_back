@@ -3,6 +3,7 @@ package fr.astek.enib.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.astek.enib.model.Book;
+import fr.astek.enib.model.BookFilterCriteria;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -59,6 +60,17 @@ public class BookDaoImpl implements BookDao {
                 .filter(book -> author.equals(book.getAuthor()))
                 .sorted(Comparator.comparingInt(Book::getId))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    @Override
+    public List<Book> getFilteredBooks(BookFilterCriteria criteria) {
+        return datas.stream()
+                .filter(book -> criteria.getAuthor() == null || criteria.getAuthor().isBlank()
+                        || criteria.getAuthor().equals(book.getAuthor()))
+                .filter(book -> criteria.getTitleKeyword() == null || criteria.getTitleKeyword().isBlank()
+                        || book.getTitle().toLowerCase().contains(criteria.getTitleKeyword().toLowerCase()))
+                .sorted(Comparator.comparingInt(Book::getId))
+                .toList();
     }
 
     @Override
