@@ -66,4 +66,15 @@ public class BookDaoImpl implements BookDao {
         return datas.removeIf(book -> book.getId() == idBook);
     }
 
+    @Override
+    public List<Book> getFilteredBooks(String author, String title) {
+        return datas.stream()
+                .filter(book -> author == null || author.isBlank()
+                        || book.getAuthor().toLowerCase().contains(author.toLowerCase()))
+                .filter(book -> title == null || title.isBlank()
+                        || book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .sorted(Comparator.comparingInt(Book::getId))
+                .collect(Collectors.toList());
+    }
+
 }

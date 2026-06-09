@@ -16,4 +16,6 @@ public interface BookDao {
     Set<Book> getBooksByAuthor(String owner);
 
     boolean deleteBook(int idBook);
+
+    List<Book> getFilteredBooks(String author, String title);
 }
