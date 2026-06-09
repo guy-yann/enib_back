@@ -1,5 +1,6 @@
 package fr.astek.enib.dao;
 
+import fr.astek.enib.exceptions.BookExistsException;
 import fr.astek.enib.model.Book;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Set;
 public interface BookDao {
     List<Book> getBooks();
 
-    Book addBook(Book book);
+    Book addBook(Book book) throws BookExistsException;
 
     Optional<Book> getBookById(int idBook);
 

@@ -1,6 +1,7 @@
 package fr.astek.enib.webservice;
 
 import fr.astek.enib.exceptions.BookException;
+import fr.astek.enib.exceptions.BookExistsException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
 import fr.astek.enib.services.BookService;
@@ -25,7 +26,7 @@ public class BooksRestController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Book> addBook(@RequestBody Book Book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book Book) throws BookExistsException {
         return new ResponseEntity<>(bookService.addBook(Book), HttpStatus.OK);
     }
 
