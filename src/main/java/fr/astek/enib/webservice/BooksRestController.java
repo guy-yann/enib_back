@@ -48,4 +48,12 @@ public class BooksRestController {
     private ResponseEntity<String> BookExceptionExists(BookException paee) {
         return new ResponseEntity<>(paee.getMessage(), paee.getStatus());
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Book>> getFilteredBooks(
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String title
+    ) {
+        return new ResponseEntity<>(bookService.getFilteredBooks(author, title), HttpStatus.OK);
+    }
 }
