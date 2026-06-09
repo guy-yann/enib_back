@@ -55,5 +55,10 @@ public class BookServiceImpl implements BookService {
     public Boolean deleteBook(int idBook) {
         return bookDao.deleteBook(idBook);
     }
-
+    //@Override
+    //public Set<Book> getBooksBygenre(String genre) {return bookDao.getBooksBygenre(genre);}
+    @Override
+    public Set<Book> getBooksFiltered(String author, String genre){
+        return bookDao.getBooksFiltered(author,genre);
+    }
 }

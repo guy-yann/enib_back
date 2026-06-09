@@ -20,4 +20,6 @@ public interface BookService {
     Book updateBookRating(int idBook, float rating) throws BookNotExistsException;
 
     Boolean deleteBook(int idBook);
+
+    Set<Book> getBooksFiltered(String author, String genre);
 }
