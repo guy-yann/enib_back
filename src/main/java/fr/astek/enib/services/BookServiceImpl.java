@@ -41,6 +41,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getBooksByTitleKeyword(String keyword) {
+        return bookDao.getBooksByTitleKeyword(keyword);
+    }
+
+    @Override
     public Boolean deleteBook(int idBook) {
         return bookDao.deleteBook(idBook);
     }

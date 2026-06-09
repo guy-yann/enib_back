@@ -52,6 +52,23 @@ class BookDaoImplTest {
     }
 
     @Test
+    void testGetBooksByTitleKeyword() {
+        List<Book> booksByKeyword = bookDao.getBooksByTitleKeyword("role");
+
+        assertNotNull(booksByKeyword, "The list of books by keyword should not be null");
+        assertEquals(2, booksByKeyword.size(), "The keyword should match two books in the dataset");
+        assertTrue(booksByKeyword.stream().allMatch(book -> book.getTitle().toLowerCase(Locale.ROOT).contains("role")),
+                "Every returned book title should contain the keyword");
+    }
+
+    @Test
+    void testGetBooksByTitleKeywordIsCaseInsensitive() {
+        List<Book> booksByKeyword = bookDao.getBooksByTitleKeyword("ROLE");
+
+        assertEquals(2, booksByKeyword.size(), "The search should be case-insensitive");
+    }
+
+    @Test
     void testDeleteBook() {
         Book existingBook = bookDao.getBooks().getFirst();
         boolean isDeleted = bookDao.deleteBook(existingBook.getId());

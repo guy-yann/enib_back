@@ -4,6 +4,7 @@ import fr.astek.enib.exceptions.BookException;
 import fr.astek.enib.exceptions.BookNotExistsException;
 import fr.astek.enib.model.Book;
 import fr.astek.enib.services.BookService;
+import fr.astek.enib.webservice.dto.BookSummaryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,20 @@ public class BooksRestController {
         return new ResponseEntity<>(bookService.getBookById(idBook), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/summary")
+    public ResponseEntity<BookSummaryResponse> getBookSummaryById(@PathVariable("id") int idBook) throws BookNotExistsException {
+        Book book = bookService.getBookById(idBook);
+        return new ResponseEntity<>(BookSummaryResponse.from(book), HttpStatus.OK);
+    }
+
     @GetMapping("/author")
     public ResponseEntity<Set<Book>> getBooksByOwner(@RequestParam("author") String author) {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
+    }
+
+    @GetMapping("/title")
+    public ResponseEntity<List<Book>> getBooksByTitleKeyword(@RequestParam("keyword") String keyword) {
+        return new ResponseEntity<>(bookService.getBooksByTitleKeyword(keyword), HttpStatus.OK);
     }
 
     @DeleteMapping("/id/{id}")
