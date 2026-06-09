@@ -110,4 +110,14 @@ class BookServiceTest {
         verify(bookDao, times(1)).deleteBook(999);
     }
 
+    @Test
+    void testUpdateBook() throws BookNotExistsException {
+
+      Book myExisting =  new Book(2, "Title1", "Author1", "description", List.of("Genre1"), new Date(), 4.5f, 100);
+      Book myUpdatedExisting =  new Book(2, "my Updated Title", "Author1", "description", List.of("Genre1"), new Date(), 4.5f, 100);
+      when(bookDao.updateBook(myExisting)).thenReturn(myUpdatedExisting);
+      assertEquals(myUpdatedExisting.getTitle(), "my Updated Title");
+
+    }
+
 }
